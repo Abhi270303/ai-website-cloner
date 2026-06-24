@@ -26,7 +26,7 @@ function FaqItem({ q, a, open, onToggle }: { q: string; a: string; open: boolean
     <div className="border-b border-yellow/20">
       <button
         onClick={onToggle}
-        className="w-full flex items-center justify-between py-6 text-left text-yellow hover:text-yellow/80 transition-colors"
+        className="w-full flex items-center justify-between py-6 text-left text-yellow transition-colors"
       >
         <span className="text-lg font-normal pr-4">{q}</span>
         <span className={`shrink-0 transition-transform duration-300 ${open ? "rotate-45" : ""}`}>
@@ -39,7 +39,7 @@ function FaqItem({ q, a, open, onToggle }: { q: string; a: string; open: boolean
       <div
         className={`overflow-hidden transition-all duration-300 ${open ? "max-h-96 pb-6" : "max-h-0"}`}
       >
-        <p className="text-yellow/85 text-sm md:text-base leading-relaxed">{a}</p>
+        <p className="text-yellow text-sm md:text-base leading-relaxed">{a}</p>
       </div>
     </div>
   );
@@ -50,7 +50,7 @@ export function GetInvolved() {
 
   return (
     <section id="faq" className="py-20 md:py-28">
-      <div className="container">
+      <div className="container px-4">
         <h2 className="text-yellow mb-10 text-4xl font-normal uppercase md:text-5xl text-center">
           FAQs
         </h2>

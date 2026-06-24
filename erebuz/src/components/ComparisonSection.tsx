@@ -20,20 +20,20 @@ export function ComparisonSection() {
             <h2 className="uppercase text-3xl md:text-4xl font-normal text-yellow mb-6">
               WHY NOT BUILD IT YOURSELF
             </h2>
-            <p className="text-base md:text-lg text-yellow/80 max-w-xl">
+            <p className="text-base md:text-lg text-yellow max-w-xl">
               Building custom privacy costs millions and takes a year and creates a small pool that makes users <em>easier</em> to fingerprint. Erebuz removes the custom crypto entirely.
             </p>
           </div>
           <div className="flex-1">
-            <div className="border border-yellow/30 rounded-xl overflow-hidden">
-              <div className="grid grid-cols-3 gap-px bg-yellow/20">
+            <div className="border border-yellow/30 rounded-xl overflow-x-auto">
+              <div className="grid grid-cols-3 gap-px bg-yellow/20 min-w-[300px]">
                 <div className="p-4 bg-black" />
                 <div className="p-4 bg-black text-yellow text-xs uppercase font-bold text-center">Build Yourself</div>
                 <div className="p-4 bg-black text-yellow text-xs uppercase font-bold text-center">Erebuz</div>
                 {rows.map((row) => (
                   <Fragment key={row.label}>
                     <div className="p-4 bg-black text-yellow text-sm">{row.label}</div>
-                    <div className="p-4 bg-black text-yellow/60 text-sm text-center">{row.build}</div>
+                    <div className="p-4 bg-black text-yellow/90 text-sm text-center">{row.build}</div>
                     <div className="p-4 bg-black text-yellow text-sm text-center font-bold">{row.erebuz}</div>
                   </Fragment>
                 ))}

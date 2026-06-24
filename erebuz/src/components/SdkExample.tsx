@@ -14,7 +14,7 @@ export function SdkExample() {
             <h2 className="uppercase text-3xl md:text-4xl font-normal text-yellow mb-6">
               ONE SDK CALL
             </h2>
-            <p className="text-base md:text-lg text-yellow/80 max-w-xl">
+            <p className="text-base md:text-lg text-yellow max-w-xl">
               One master seed. One balance call. One <code className="text-cyan">send()</code> handles routing, privacy, compliance, and gas. No custom crypto.
             </p>
           </div>

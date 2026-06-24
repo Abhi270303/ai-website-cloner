@@ -194,10 +194,24 @@ function PillarBox({ x, y, w, h, title, color, logos }: { x: number; y: number; 
 
 function ArchitectureFlow() {
   const boxW = 340;
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    let dir = 1;
+    const speed = 0.5;
+    const id = setInterval(() => {
+      el.scrollLeft += speed * dir;
+      if (el.scrollLeft + el.clientWidth >= el.scrollWidth - 2) dir = -1;
+      if (el.scrollLeft <= 1) dir = 1;
+    }, 16);
+    return () => clearInterval(id);
+  }, []);
 
   return (
-    <div className="relative w-full overflow-hidden mb-8">
-      <svg viewBox="0 0 1180 260" fill="none" className="w-full h-auto max-w-6xl mx-auto">
+    <div ref={scrollRef} className="relative w-full overflow-x-auto mb-8 scrollbar-thin">
+      <svg viewBox="0 0 1180 260" fill="none" className="min-w-[1000px] h-auto mx-auto">
         <g transform="translate(65, 0)">
         {/* ===== PHONE ICON (App/Wallet) ===== */}
         <PhoneIcon x={12} y={90} />

@@ -191,7 +191,7 @@ export function HeroSection() {
           className="fixed bottom-0 left-0 right-0 flex justify-center pb-8 z-50 uppercase gap-5 pointer-events-none"
           style={{ opacity: cursor.x === -999 ? 0.8 : 0.15 }}
         >
-          <span className="text-xs tracking-widest text-white/60">
+          <span className="text-xs tracking-widest text-white/90">
             SCROLL TO EXPLORE
           </span>
         </aside>

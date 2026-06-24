@@ -39,25 +39,25 @@ export function Footer() {
         <nav className="grid grid-cols-2 md:grid-cols-4 gap-8">
           {Object.entries(FOOTER_LINKS).map(([title, links]) => (
             <div key={title}>
-              <h4 className="uppercase text-sm tracking-wider text-yellow/60 mb-6 font-light">
+              <h4 className="uppercase text-sm tracking-wider text-yellow/80 mb-6 font-light">
                 {title}
               </h4>
               <ul className="flex flex-col gap-3">
                 {links.map((link) => (
-                  <li key={link.href} className="whitespace-nowrap overflow-hidden">
+                  <li key={link.href}>
                     {isExternal(link.href) ? (
                       <a
                         href={link.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-xl md:text-3xl uppercase text-yellow hover:text-cyan transition-colors"
+                        className="text-lg md:text-3xl uppercase text-yellow hover:text-cyan transition-colors break-words"
                       >
                         {link.label}
                       </a>
                     ) : (
                       <Link
                         href={link.href}
-                        className="text-xl md:text-3xl uppercase text-yellow hover:text-cyan transition-colors"
+                        className="text-lg md:text-3xl uppercase text-yellow hover:text-cyan transition-colors break-words"
                       >
                         {link.label}
                       </Link>
@@ -69,7 +69,7 @@ export function Footer() {
           ))}
         </nav>
         <div className="mt-16">
-          <p className="text-yellow/50 text-sm">© 2026 Erebuz</p>
+          <p className="text-yellow/80 text-sm">© 2026 Erebuz</p>
         </div>
       </div>
     </footer>

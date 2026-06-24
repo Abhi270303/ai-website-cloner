@@ -17,7 +17,7 @@ export function PrivacyModel() {
             <h2 className="uppercase text-3xl md:text-4xl font-normal text-yellow mb-6">
               PRIVACY MODEL &amp; TEE
             </h2>
-            <p className="text-base md:text-lg text-yellow/80 max-w-xl">
+            <p className="text-base md:text-lg text-yellow max-w-xl">
               Each app runs its own TEE, a locked box not even the machine owner can see inside. Keys, compliance, signing, and routing all execute there. Self-host or Erebuz-host
             </p>
           </div>

@@ -16,7 +16,7 @@ export function SupportedChains() {
             <h2 className="uppercase text-3xl md:text-4xl font-normal text-yellow mb-6">
               SUPPORTED CHAINS
             </h2>
-            <p className="text-base md:text-lg text-yellow/80 max-w-xl">
+            <p className="text-base md:text-lg text-yellow max-w-xl">
               Routes private transactions across every major EVM chain and StarkNet. More chains added as the pool grows.
             </p>
           </div>
@@ -29,14 +29,14 @@ export function SupportedChains() {
                       <img src={chain.img} alt={chain.name} className="size-full object-cover transition-transform duration-300 group-hover:scale-110" />
                     </div>
                   </div>
-                  <span className="text-yellow/50 text-xs uppercase tracking-wider transition-all duration-300 group-hover:text-yellow group-hover:opacity-100">{chain.name}</span>
+                  <span className="text-yellow/80 text-xs uppercase tracking-wider transition-all duration-300 group-hover:text-yellow">{chain.name}</span>
                 </div>
               ))}
               <div className="flex flex-col items-center gap-2">
                 <div className="size-20 rounded-full border border-dashed border-yellow/20 flex items-center justify-center bg-black/40">
-                  <span className="text-yellow/40 text-xs font-mono tracking-tight leading-tight text-center">+20<br />more</span>
+                  <span className="text-yellow/70 text-xs font-mono tracking-tight leading-tight text-center">+20<br />more</span>
                 </div>
-                <span className="text-yellow/30 text-xs uppercase tracking-wider">& more</span>
+                <span className="text-yellow/70 text-xs uppercase tracking-wider">& more</span>
               </div>
             </div>
           </div>

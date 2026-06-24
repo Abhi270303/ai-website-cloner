@@ -77,7 +77,7 @@ export function UseErebuz() {
               <h3 className="mt-6 mb-3 text-2xl font-normal uppercase">
                 {card.title}
               </h3>
-              <p className="text-sm leading-relaxed opacity-80">{card.description}</p>
+              <p className="text-sm leading-relaxed">{card.description}</p>
               <a
                 href="#"
                 className="mt-auto text-sm font-medium uppercase underline underline-offset-4 transition-all hover:no-underline"
