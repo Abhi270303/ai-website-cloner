@@ -3,6 +3,43 @@
 import { useRef, useEffect, useState } from "react";
 import { ErebuzDiagram } from "./ErebuzDiagram";
 
+const STEPS = [
+  "Apps and wallets request a route with findRoute()",
+  "The Erebuz SDK finds the optimal path and quotes a routing fee",
+  "Privacy : value is shielded through Railgun, StarkNet, Zcash & Monero",
+  "Compliance : every route is screened by Chainalysis, Elliptic & TRM Labs",
+  "DeFi / Bridges : routed across Stargate, Across, Relay & deBridge",
+  "Settlement : all three lanes converge and the transaction is finalized on-chain",
+  "One call. Private, compliant, multi-chain settlement.",
+]
+
+function TaglineRotator() {
+  const [idx, setIdx] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => setIdx((i) => (i + 1) % STEPS.length), 4000);
+    return () => clearInterval(id);
+  }, []);
+
+  return (
+    <div className="relative h-8 flex items-center justify-center">
+      {STEPS.map((t, i) => (
+        <p
+          key={t}
+          className="absolute text-white text-sm md:text-base text-center px-4 transition-all duration-700"
+          style={{
+            opacity: i === idx ? 1 : 0,
+            transform: `translateY(${i === idx ? "0" : "8px"})`,
+            pointerEvents: i === idx ? "auto" : "none",
+          }}
+        >
+          {t}
+        </p>
+      ))}
+    </div>
+  )
+}
+
 
 
 export function CoreSection() {
@@ -59,7 +96,7 @@ export function CoreSection() {
         <div
           id="flow-diagram"
           data-animate
-          className="my-4 lg:my-14"
+          className="mt-4 lg:mt-10"
           style={{
             animation: visible["flow-diagram"] ? "pillar-in 0.6s ease-out 0.1s forwards" : "none",
             opacity: 0,
@@ -68,6 +105,7 @@ export function CoreSection() {
           <ErebuzDiagram />
         </div>
 
+        <TaglineRotator />
 
       </div>
     </section>

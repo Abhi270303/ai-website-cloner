@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 /* ---------------------------------- icons --------------------------------- */
 
@@ -94,6 +94,8 @@ export function ErebuzTee() {
     return () => mq.removeEventListener("change", onChange)
   }, [])
 
+  const hostIntervalRef = useRef<ReturnType<typeof setInterval> | undefined>(undefined)
+
   useEffect(() => {
     if (reduced) return
     const id = setInterval(() => setActive((a) => (a + 1) % MODULES.length), 1400)
@@ -102,9 +104,21 @@ export function ErebuzTee() {
 
   useEffect(() => {
     if (reduced) return
-    const id = setInterval(() => setHost((h) => (h + 1) % HOSTS.length), 4200)
+    const id = setInterval(() => setHost((h) => (h + 1) % HOSTS.length), 3000)
+    hostIntervalRef.current = id
     return () => clearInterval(id)
   }, [reduced])
+
+  function handleHostClick(i: number) {
+    setHost(i)
+    clearInterval(hostIntervalRef.current)
+    if (!reduced) {
+      const id = setInterval(() => setHost((h) => (h + 1) % HOSTS.length), 3000)
+      hostIntervalRef.current = id
+    }
+  }
+
+  const selfHost = host === 0
 
   return (
     <section
@@ -118,24 +132,33 @@ export function ErebuzTee() {
           <p className="text-[11px] uppercase tracking-[0.2em] text-white/40">Privacy model</p>
           <h2 className="mt-1 text-lg font-bold tracking-tight text-white sm:text-xl">TEE : Trusted Execution Environment</h2>
         </div>
-        <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-white/15 px-2.5 py-1 text-[10px] font-semibold text-white/70">
-          <span className="h-1.5 w-1.5 rounded-full bg-white" />
-          SEALED
-        </span>
       </div>
 
       {/* stage */}
       <div className="relative mt-8 flex items-stretch justify-between gap-2 sm:gap-4">
         {/* ---- machine owner (left) ---- */}
         <div className="flex w-24 shrink-0 flex-col items-center justify-center gap-3 sm:w-32">
-          <div className="flex h-16 w-16 items-center justify-center rounded-xl border border-white/15 bg-white/[0.03] text-white/60 sm:h-20 sm:w-20">
+          <div
+            className="flex h-16 w-16 items-center justify-center rounded-xl border sm:h-20 sm:w-20"
+            style={{
+              borderColor: selfHost ? "rgba(255,255,255,0.3)" : "rgba(255,255,255,0.15)",
+              backgroundColor: selfHost ? "rgba(255,255,255,0.06)" : "rgba(255,255,255,0.03)",
+              color: selfHost ? "rgba(255,255,255,0.85)" : "rgba(255,255,255,0.6)",
+            }}
+          >
             <IconEyeOff className="h-7 w-7 sm:h-8 sm:w-8" />
           </div>
-          <p className="text-center text-[10px] leading-tight text-white/45 sm:text-[11px]">
+          <p className="text-center text-sm leading-tight text-white sm:text-base">
             Machine owner
-            <br />
-            <span className="text-white/30">no visibility</span>
           </p>
+          <span
+            className="text-center text-xs leading-tight transition-all duration-500 sm:text-sm"
+            style={{
+              color: selfHost ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.85)",
+            }}
+          >
+            {selfHost ? "chooses who gets visibility" : "zero visibility"}
+          </span>
         </div>
 
         {/* ---- scan beams + blocked wall ---- */}
@@ -199,7 +222,7 @@ export function ErebuzTee() {
                     }}
                   >
                     <m.Icon className="h-4 w-4 shrink-0 sm:h-[18px] sm:w-[18px]" />
-                    <span className="truncate text-[11px] font-semibold sm:text-xs">{m.label}</span>
+                    <span className="text-[11px] font-semibold sm:text-xs">{m.label}</span>
                   </div>
                 )
               })}
@@ -216,20 +239,28 @@ export function ErebuzTee() {
           {HOSTS.map((h, i) => {
             const on = i === host
             return (
-              <span
+              <button
                 key={h}
-                className="rounded-full px-4 py-1.5 text-[11px] font-semibold transition-all duration-500"
+                type="button"
+                onClick={() => handleHostClick(i)}
+                className="cursor-pointer rounded-full px-4 py-1.5 text-[11px] font-semibold transition-all duration-500"
                 style={{
                   backgroundColor: on ? "#ffffff" : "transparent",
                   color: on ? "#080808" : "rgba(255,255,255,0.5)",
                 }}
               >
                 {h}
-              </span>
+              </button>
             )
           })}
         </div>
       </div>
+
+      <p className="mx-auto mt-5 max-w-xl text-balance text-center text-[12px] leading-relaxed text-white/55">
+        {selfHost
+          ? "With Self-host, you decide who gets visibility into the enclave, full control over audit access and key management."
+          : "With Erebuz-host, nobody, not even the machine owner can see inside the enclave. Maximum privacy guarantees."}
+      </p>
     </section>
   )
 }

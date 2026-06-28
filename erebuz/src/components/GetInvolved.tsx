@@ -39,7 +39,7 @@ function FaqItem({ q, a, open, onToggle }: { q: string; a: string; open: boolean
       <div
         className={`overflow-hidden transition-all duration-300 ${open ? "max-h-96 pb-6" : "max-h-0"}`}
       >
-        <p className="text-yellow text-sm md:text-base leading-relaxed">{a}</p>
+        <p className="text-white/80 text-sm md:text-base leading-relaxed">{a}</p>
       </div>
     </div>
   );

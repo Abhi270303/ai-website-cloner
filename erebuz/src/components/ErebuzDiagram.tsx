@@ -5,8 +5,8 @@ import { useEffect, useRef, useState } from "react"
 type Logo = { name: string; src: string }
 
 const privacy: Logo[] = [
-  { name: "Railgun", src: "/protocols/railgun.jpg" },
   { name: "StarkNet", src: "/protocols/starknet.png" },
+  { name: "Railgun", src: "/protocols/railgun.jpg" },
   { name: "Zcash", src: "/protocols/zcash.jpg" },
   { name: "Monero", src: "/protocols/monero.jpg" },
 ]
@@ -23,18 +23,6 @@ const defi: Logo[] = [
   { name: "Relay", src: "/protocols/relay.jpg" },
   { name: "deBridge", src: "/protocols/debridge.jpg" },
 ]
-
-const STEPS = [
-  "Apps and wallets request a route with findRoute()",
-  "The Erebuz SDK finds the optimal path and quotes a routing fee",
-  "Privacy : value is shielded through Railgun, StarkNet, Zcash & Monero",
-  "Compliance : every route is screened by Chainalysis, Elliptic & TRM Labs",
-  "DeFi / Bridges : routed across Stargate, Across, Relay & deBridge",
-  "Settlement : all three lanes converge and the transaction is finalized on-chain",
-  "One call. Private, compliant, multi-chain settlement.",
-]
-
-const STEP_MS = 2200
 
 /* ----------------------------------------------------------------------- */
 
@@ -207,15 +195,6 @@ export function ErebuzDiagram() {
   const containerRef = useRef<HTMLDivElement>(null)
   const scrollRef = useRef<HTMLDivElement>(null)
   const [scale, setScale] = useState(1)
-  const [step, setStep] = useState(() => {
-    if (
-      typeof window !== "undefined" &&
-      window.matchMedia?.("(prefers-reduced-motion: reduce)").matches
-    ) {
-      return STEPS.length - 1
-    }
-    return 0
-  })
 
   useEffect(() => {
     const updateScale = () => {
@@ -237,6 +216,8 @@ export function ErebuzDiagram() {
   useEffect(() => {
     const el = scrollRef.current
     if (!el || scale >= 1) return
+    const isMobile = window.matchMedia("(max-width: 767px)").matches
+    if (!isMobile) return
     let id: number
     let dir = 1
     let paused = false
@@ -266,24 +247,30 @@ export function ErebuzDiagram() {
     }
   }, [scale])
 
+  const [progress, setProgress] = useState(1)
+
   useEffect(() => {
-    const id = setInterval(() => {
-      setStep((s) => (s + 1) % STEPS.length)
-    }, STEP_MS)
-    return () => clearInterval(id)
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    if (reduced) return
+    let id: number
+    const duration = 8000
+    const start = Date.now()
+    const animate = () => {
+      const elapsed = (Date.now() - start) % duration
+      setProgress(elapsed / duration)
+      id = requestAnimationFrame(animate)
+    }
+    id = requestAnimationFrame(animate)
+    return () => cancelAnimationFrame(id)
   }, [])
 
   const inputsActive = true
   const mergeActive = true
-  const sdkActive = lit(1)
-  const privacyActive = lit(2)
-  const complianceActive = lit(3)
-  const defiActive = lit(4)
-  const settleActive = lit(5)
-
-  function lit(threshold: number) {
-    return step >= threshold
-  }
+  const sdkActive = progress >= 0.03
+  const privacyActive = progress >= 0.12
+  const complianceActive = progress >= 0.21
+  const defiActive = progress >= 0.30
+  const settleActive = progress >= 0.39
 
   return (
     <div className="w-full" ref={containerRef}>
@@ -327,7 +314,7 @@ export function ErebuzDiagram() {
           <WalletNode active={inputsActive} />
 
           <div
-            className="absolute flex flex-col items-center justify-center rounded-2xl border bg-white transition-all duration-500"
+            className="absolute flex flex-col items-center justify-center gap-1 rounded-2xl border bg-white transition-all duration-500"
             style={{
               left: 360,
               top: 230,
@@ -344,9 +331,10 @@ export function ErebuzDiagram() {
                 aria-hidden="true"
               />
             )}
-            <span className="text-lg font-bold tracking-tight text-[#080808]">Erebuz SDK</span>
+            <img src="/images/erebuz-logo.svg" alt="Erebuz" className="h-7 w-auto brightness-0" />
+            <span className="text-sm font-bold tracking-tight text-[#080808]">Erebuz SDK</span>
           </div>
-          <ArrowLabel text="Routing fee" x={451} y={352} active={sdkActive} />
+          {/* <ArrowLabel text="Routing fee" x={451} y={352} active={sdkActive} /> */}
 
           <ArrowLabel text="findRoute()" x={246} y={224} active={mergeActive} />
           <ArrowLabel text="findRoute()" x={246} y={336} active={mergeActive} />
@@ -400,30 +388,11 @@ export function ErebuzDiagram() {
         </div>
       </div>
 
-      <div className="mx-auto mt-6 flex max-w-2xl flex-col items-center gap-4">
-        <p
-          key={step}
-          className="min-h-[2.5rem] text-center text-sm font-medium text-white/90 sm:text-base"
-          style={{ animation: "erebuz-fade 0.5s ease-out both" }}
-        >
-          {STEPS[step]}
+      {/* <div className="mx-auto mt-6 max-w-2xl">
+        <p className="text-center text-sm font-medium text-white/60 sm:text-base">
+          One SDK call. Private, compliant, multi-chain settlement.
         </p>
-        <div className="flex items-center gap-2" role="presentation">
-          {STEPS.map((_, i) => (
-            <button
-              key={i}
-              type="button"
-              aria-label={`Step ${i + 1}`}
-              onClick={() => setStep(i)}
-              className="h-1.5 rounded-full transition-all duration-300"
-              style={{
-                width: i === step ? 28 : 10,
-                backgroundColor: i === step ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.25)",
-              }}
-            />
-          ))}
-        </div>
-      </div>
+      </div> */}
     </div>
   )
 }
