@@ -1,7 +1,7 @@
 import {
   ShieldIcon,
-  ArrowRightIcon,
 } from "@/components/icons";
+import { ErebuzTee } from "./ErebuzTee";
 
 export function PrivacyModel() {
   return (
@@ -22,7 +22,7 @@ export function PrivacyModel() {
             </p>
           </div>
           <div className="flex-1 flex justify-center">
-            <ArrowRightIcon className="size-20 text-yellow" />
+            <ErebuzTee />
           </div>
         </div>
       </div>
