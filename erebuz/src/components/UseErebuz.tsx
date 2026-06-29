@@ -29,6 +29,57 @@ function SendIcon({ className }: { className?: string }) {
   );
 }
 
+type Logo = { name: string; src: string }
+
+const walletsLogos: Logo[] = [
+  { name: "Metamask", src: "/protocols/Wallets/Metamask.jpg" },
+  { name: "OKX", src: "/protocols/Wallets/OKX wallet.jpg" },
+  { name: "Rabby", src: "/protocols/Wallets/Rabby wallet.jpg" },
+  { name: "Trust", src: "/protocols/Wallets/Trust wallet.jpg" },
+  { name: "Coinbase", src: "/protocols/Wallets/coinbase.png" },
+  { name: "1inch", src: "/protocols/Wallets/1inch wallet.jpg" },
+  { name: "Base", src: "/protocols/Wallets/Base wallet.jpg" },
+]
+
+const dexLogos: Logo[] = [
+  { name: "Uniswap", src: "/protocols/DEX/uniswap.jpg" },
+  { name: "1inch", src: "/protocols/DEX/1inch.jpg" },
+  { name: "Curve", src: "/protocols/DEX/Curve Finance.jpg" },
+  { name: "Kyber", src: "/protocols/DEX/Kyber Network.jpg" },
+  { name: "PancakeSwap", src: "/protocols/DEX/PancakeSwap.jpg" },
+  { name: "Sushi", src: "/protocols/DEX/Sushi swap.jpg" },
+  { name: "0x", src: "/protocols/DEX/0x.jpg" },
+]
+
+const paymentLogos: Logo[] = [
+  { name: "Stripe", src: "/protocols/payments/Stripe.jpg" },
+  { name: "Coinbase Pay", src: "/protocols/payments/Coinbase Pay.png" },
+  { name: "Request", src: "/protocols/payments/Request Network.png" },
+  { name: "Safe", src: "/protocols/payments/Safe.jpg" },
+  { name: "Avici", src: "/protocols/payments/Avici.jpg" },
+  { name: "EtherFi", src: "/protocols/payments/EtherFi.jpg" },
+  { name: "Kast", src: "/protocols/payments/Kast.jpg" },
+]
+
+function LogoRow({ logos, textColor }: { logos: Logo[]; textColor: string }) {
+  return (
+    <div className="mt-auto flex items-center gap-2 flex-wrap">
+      {logos.map((logo) => (
+        <div key={logo.name} className="group relative flex flex-col items-center">
+          <div className="size-9 rounded-full border border-current/20 p-0.5 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
+            <div className="size-full rounded-full overflow-hidden bg-black/40">
+              <img src={logo.src} alt={logo.name} className="size-full object-cover" />
+            </div>
+          </div>
+          <span className="absolute -bottom-3.5 text-[7px] uppercase tracking-wider whitespace-nowrap opacity-0 transition-opacity duration-200 group-hover:opacity-100 text-current/60">
+            {logo.name}
+          </span>
+        </div>
+      ))}
+    </div>
+  )
+}
+
 export function UseErebuz() {
   const cards = [
     {
@@ -37,7 +88,7 @@ export function UseErebuz() {
       title: "WALLETS",
       icon: WalletIcon,
       description: "Private transactions with one SDK integration.",
-      cta: "INTEGRATE",
+      logos: walletsLogos,
     },
     {
       bg: "bg-cyan",
@@ -45,18 +96,18 @@ export function UseErebuz() {
       title: "DEX EXCHANGES",
       icon: SwapIcon,
       description: "Shielded cross-chain swaps with no exposure.",
-      cta: "LEARN MORE",
+      logos: dexLogos,
       translate: "lg:translate-y-20",
     },
     {
-      bg: "bg-black",
-      textColor: "text-yellow",
+      bg: "bg-white",
+      textColor: "text-black",
       title: "PAYMENT APPS",
       icon: SendIcon,
-      description: "Private sends with automatic compliance built in.",
-      cta: "LEARN MORE",
+      description: "Private sends with automatic compliance inbuilt.",
+      logos: paymentLogos,
       translate: "lg:translate-y-40",
-      border: "border border-yellow",
+      border: "border border-black/10",
     },
   ];
 
@@ -77,13 +128,8 @@ export function UseErebuz() {
               <h3 className="mt-6 mb-3 text-2xl font-normal uppercase">
                 {card.title}
               </h3>
-              <p className="text-sm leading-relaxed">{card.description}</p>
-              <a
-                href="#"
-                className="mt-auto text-sm font-medium uppercase underline underline-offset-4 transition-all hover:no-underline"
-              >
-                {card.cta}
-              </a>
+              <p className="text-sm leading-relaxed mb-6">{card.description}</p>
+              <LogoRow logos={card.logos} textColor={card.textColor} />
             </div>
           );
         })}
